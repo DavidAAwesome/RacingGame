@@ -11,6 +11,7 @@ public class CarMovement : MonoBehaviour
     public float SteerAngle = 20;
     public float Traction = 10;
     public Vector3 Speed;
+    public bool isBoosted = false;
 
     InputAction driveAction;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -23,9 +24,9 @@ public class CarMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Debug.Log(driveAction.ReadValue<Vector2>());
+        //Debug.Log(driveAction.ReadValue<Vector2>());
         //check if accelerating
-        if (driveAction.ReadValue<Vector2>().y > 0)
+        if (driveAction.ReadValue<Vector2>().y > 0 && !isBoosted)
         {
             Acceleration = 50;
 
