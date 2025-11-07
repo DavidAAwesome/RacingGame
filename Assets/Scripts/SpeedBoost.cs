@@ -25,17 +25,16 @@ public class SpeedBoost : MonoBehaviour
         {
             Debug.Log("Speed Boost Activated!");
             carMovement.isBoosted = true;
-            carMovement.Acceleration += BoostAmount * 2;
-            carMovement.MaxSpeed += BoostAmount;
-            carMovement.Speed += player.transform.forward * BoostAmount;
+            carMovement.Acceleration += BoostAmount * 2; //Increase acceleration significantly during boost
+            carMovement.MaxSpeed += BoostAmount; //Increase max speed during boost
+            carMovement.Speed += player.transform.forward * BoostAmount; 
             Invoke("ResetSpeed", BoostDuration);
-            //Disable the boost object to simulate cooldown
             gameObject.SetActive(false);
             Invoke("ReactivateBoost", BoostDuration + 3f); // Reactivate after boost duration + cooldown time
         }
     }
 
-    private void ResetSpeed()
+    private void ResetSpeed() //Reset the Speed after boost duration
     {
         carMovement.Acceleration -= BoostAmount;
         carMovement.MaxSpeed -= BoostAmount;
@@ -43,7 +42,7 @@ public class SpeedBoost : MonoBehaviour
         Debug.Log("Speed Boost Ended!");
     }
 
-    private void ReactivateBoost()
+    private void ReactivateBoost() //Reactivate the boost pickup after cooldown
     {
         gameObject.SetActive(true);
         Debug.Log("Speed Boost Ready Again!");
