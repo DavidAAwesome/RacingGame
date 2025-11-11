@@ -1,0 +1,26 @@
+using UnityEngine;
+
+public class CheckPoint : MonoBehaviour
+{
+    public int checkPointID;
+    private RaceManager raceManager;
+    [SerializeField] GameObject player;
+
+    private void Awake()
+    {
+        raceManager = GetComponent<RaceManager>();
+    }
+    private void Start()
+    {
+        player = GameObject.FindWithTag("Player");
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject == player)
+        {
+            RaceManager.Instance.CheckpointReach(checkPointID);
+  
+        }
+    }
+}
