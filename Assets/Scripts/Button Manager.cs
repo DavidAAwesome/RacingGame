@@ -4,6 +4,8 @@ using UnityEngine.SceneManagement;
 
 public class ButtonManager : MonoBehaviour
 {
+   
+    public GameObject Overlay;
     enum CurrentSceneName
     {
         Menu,
@@ -55,13 +57,15 @@ None,
         {
             currentScene = CurrentSceneName.MainGame3;
         }
-        if (gameObject.name.Contains("Menu"))
+
+        if (gameObject.name.Contains("Exit"))
         {
             currentScene = CurrentSceneName.Menu;
         }
-         if (gameObject.name.Contains("Exit"))
+        
+         if (gameObject.name.Contains("Resume"))
         {
-            Application.Quit();
+            DisplayOverlay.Overlay1_Global.SetActive(false);
         }
     }
 }
