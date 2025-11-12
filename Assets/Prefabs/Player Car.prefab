@@ -108,7 +108,7 @@ GameObject:
   - component: {fileID: -5608901263786217159}
   m_Layer: 0
   m_Name: Player Car
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -217,9 +217,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Acceleration: 0
   MaxSpeed: 15
+  MaxReverseSpeed: -5
   Drag: 0.98
   SteerAngle: 20
   Traction: 1
+  Speed: {x: 0, y: 0, z: 0}
+  isBoosted: 0
 --- !u!114 &-5608901263786217159
 MonoBehaviour:
   m_ObjectHideFlags: 0
