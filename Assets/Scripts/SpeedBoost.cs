@@ -23,7 +23,7 @@ public class SpeedBoost : MonoBehaviour
     {
         if (other.gameObject == player)
         {
-            Debug.Log("Speed Boost Activated!");
+            // Debug.Log("Speed Boost Activated!");
             carMovement.isBoosted = true;
             carMovement.Acceleration += BoostAmount * 2; //Increase acceleration significantly during boost
             carMovement.MaxSpeed += BoostAmount; //Increase max speed during boost
@@ -39,13 +39,13 @@ public class SpeedBoost : MonoBehaviour
         carMovement.Acceleration -= BoostAmount;
         carMovement.MaxSpeed -= BoostAmount;
         carMovement.isBoosted = false;
-        Debug.Log("Speed Boost Ended!");
+        // Debug.Log("Speed Boost Ended!");
     }
 
     private void ReactivateBoost() //Reactivate the boost pickup after cooldown
     {
         gameObject.SetActive(true);
-        Debug.Log("Speed Boost Ready Again!");
+        // Debug.Log("Speed Boost Ready Again!");
     }
 }
 

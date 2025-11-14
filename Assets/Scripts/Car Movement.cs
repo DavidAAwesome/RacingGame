@@ -1,73 +1,86 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+
+[RequireComponent(typeof(Rigidbody))]
 public class CarMovement : MonoBehaviour
 {
-
-    public float Acceleration = 0;
-    public float MaxSpeed = 15;
-    public float MaxReverseSpeed = -5;
+    [Header("Movement Settings")]
+    public float Acceleration = 0f;
+    public float MaxSpeed = 15f;
+    public float MaxReverseSpeed = -5f;
     public float Drag = 0.98f;
-    public float SteerAngle = 20;
-    public float Traction = 10;
+    public float SteerAngle = 20f;
+    public float Traction = 10f;
+
+    [Header("State")]
     public Vector3 Speed;
     public bool isBoosted = false;
 
-    InputAction driveAction;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private InputAction driveAction;
+    private Rigidbody rb;
+
+    private void Awake()
     {
+        rb = GetComponent<Rigidbody>();
+
+        rb.interpolation = RigidbodyInterpolation.Interpolate;
+        rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+        rb.centerOfMass = new Vector3(0f, -0.3f, 0f);
+        
         driveAction = InputSystem.actions.FindAction("Drive");
     }
 
-    
-
     private void FixedUpdate()
     {
-        //Debug.Log(driveAction.ReadValue<Vector2>());
+        if (driveAction == null)
+            return;
+
+        Vector2 input = driveAction.ReadValue<Vector2>();
+        float accelInput = input.y;
+        float steerInput = input.x;
+        
+        Debug.Log(input);
+
         //check if accelerating
-        if (driveAction.ReadValue<Vector2>().y > 0 && !isBoosted)
+        if (accelInput > 0f && !isBoosted)
         {
-            Acceleration = 50;
-
-
+            Acceleration = 50f;
         }
         //Brake
-        else if (driveAction.ReadValue<Vector2>().y < 0)
+        else if (accelInput < 0f)
         {
-            Acceleration = -20;
+            Acceleration = -20f;
         }
-        else if (driveAction.ReadValue<Vector2>().y == 0)
+        else
         {
-            Acceleration = 0;
+            Acceleration = 0f;
         }
 
-            //turn
-            transform.Rotate(Vector3.up * driveAction.ReadValue<Vector2>().x * Speed.magnitude * SteerAngle * Time.deltaTime);
-        
-        
-        //Move forward
-        Speed += transform.forward * Acceleration * Time.deltaTime;
-        transform.position += Speed * Time.deltaTime;
+        // Move forward along car's forward
+        Speed += transform.forward * (Acceleration * Time.fixedDeltaTime);
 
         // Drag
         Speed *= Drag;
 
-        //Speed Limit (kind of working backwards)
-        Speed = ClampMagnitude(Speed, MaxSpeed, MaxReverseSpeed);
-        
+        // Speed Limit
+        Vector3 localSpeed = transform.InverseTransformDirection(Speed);
+        localSpeed.z = Mathf.Clamp(localSpeed.z, MaxReverseSpeed, MaxSpeed);
+        Speed = transform.TransformDirection(localSpeed);
 
+        // Traction (pull velocity toward forward direction)
+        if (Speed.sqrMagnitude > 0.0001f)
+        {
+            Vector3 desiredDir = transform.forward;
+            Vector3 newDir = Vector3.Lerp(Speed.normalized, desiredDir, Traction * Time.fixedDeltaTime);
+            Speed = newDir.normalized * Speed.magnitude;
+        }
 
-        //Traction
-        Speed = Vector3.Lerp(Speed.normalized, transform.forward, Traction * Time.deltaTime) * Speed.magnitude;
+        // Move Car
+        rb.MovePosition(rb.position + Speed * Time.fixedDeltaTime);
+
+        // Steering based on current speed
+        float steerAmount = steerInput * Speed.magnitude * SteerAngle * Time.fixedDeltaTime;
+        Quaternion turnRotation = Quaternion.Euler(0f, steerAmount, 0f);
+        rb.MoveRotation(rb.rotation * turnRotation);
     }
-
-    public static Vector3 ClampMagnitude(Vector3 v, float max, float min)
-    {
-        double sm = v.sqrMagnitude;
-        if (sm > (double)max * (double)max) return v.normalized * max;
-        else if (sm < (double)min * (double)min) return v.normalized * min;
-        return v;
-    }
-
 }
