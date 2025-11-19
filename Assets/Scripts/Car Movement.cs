@@ -24,7 +24,7 @@ public class CarMovement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
 
         rb.interpolation = RigidbodyInterpolation.Interpolate;
-        rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+        // rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
         rb.centerOfMass = new Vector3(0f, -0.3f, 0f);
         
         driveAction = InputSystem.actions.FindAction("Drive");
