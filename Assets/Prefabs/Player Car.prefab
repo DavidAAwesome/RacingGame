@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: -2502226107501641193}
   - component: {fileID: -5608901263786217159}
   - component: {fileID: -240404798948442138}
+  - component: {fileID: 3336851857238578474}
   m_Layer: 0
   m_Name: Player Car
   m_TagString: Player
@@ -34,8 +35,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2.0409899, y: 1, z: 3}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 3715595174290748180}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5674926645479240367
@@ -68,8 +68,7 @@ MeshRenderer:
   m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_Materials: []
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -124,14 +123,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6daf8ce4c024b6641abffc2fb079930c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Acceleration: 0
-  MaxSpeed: 15
-  MaxReverseSpeed: -5
-  Drag: 0.98
-  SteerAngle: 20
-  Traction: 1
-  Speed: {x: 0, y: 0, z: 0}
-  isBoosted: 0
 --- !u!114 &-5608901263786217159
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -249,115 +240,29 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 2
---- !u!1 &9074507432243267879
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3715595174290748180}
-  - component: {fileID: 8658681224584148769}
-  - component: {fileID: 440837513195594085}
-  - component: {fileID: 5164031875911447498}
-  m_Layer: 0
-  m_Name: Main Camera (1)
-  m_TagString: MainCamera
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3715595174290748180
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9074507432243267879}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0.11487892, y: -0, z: -0, w: 0.99337953}
-  m_LocalPosition: {x: 0, y: 2, z: -1.6666667}
-  m_LocalScale: {x: 0.48995832, y: 0.90564615, z: 0.34532574}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 5790419252570762633}
-  m_LocalEulerAnglesHint: {x: 13.193, y: 0, z: 0}
---- !u!20 &8658681224584148769
-Camera:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9074507432243267879}
-  m_Enabled: 1
-  serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
-  m_projectionMatrixMode: 1
-  m_GateFitMode: 2
-  m_FOVAxisMode: 0
-  m_Iso: 200
-  m_ShutterSpeed: 0.005
-  m_Aperture: 16
-  m_FocusDistance: 10
-  m_FocalLength: 50
-  m_BladeCount: 5
-  m_Curvature: {x: 2, y: 11}
-  m_BarrelClipping: 0.25
-  m_Anamorphism: 0
-  m_SensorSize: {x: 36, y: 24}
-  m_LensShift: {x: 0, y: 0}
-  m_NormalizedViewPortRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
-  near clip plane: 0.3
-  far clip plane: 1000
-  field of view: 60
-  orthographic: 0
-  orthographic size: 5
-  m_Depth: -1
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_RenderingPath: -1
-  m_TargetTexture: {fileID: 0}
-  m_TargetDisplay: 0
-  m_TargetEye: 3
-  m_HDR: 1
-  m_AllowMSAA: 1
-  m_AllowDynamicResolution: 0
-  m_ForceIntoRT: 0
-  m_OcclusionCulling: 1
-  m_StereoConvergence: 10
-  m_StereoSeparation: 0.022
---- !u!81 &440837513195594085
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9074507432243267879}
-  m_Enabled: 1
---- !u!114 &5164031875911447498
+--- !u!114 &3336851857238578474
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9074507432243267879}
-  m_Enabled: 0
+  m_GameObject: {fileID: 5999068089385906553}
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0dbd3c8cd6a67064db946529e43d8a5a, type: 3}
+  m_Script: {fileID: 11500000, guid: 72f97125a5f28b642911ba9025c64616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 5790419252570762633}
-  targetRb: {fileID: -240404798948442138}
-  followOffset: {x: 0, y: 4, z: -3}
-  positionSmoothTime: 0.15
-  rotationSmoothSpeed: 10
-  lookAheadDistance: 4
-  minLookAheadSpeed: 1
+  motorForce: 100
+  maxSpeed: 20
+  maxReverseSpeed: 8
+  turnSpeed: 150
+  drag: 0.98
+  groundRayLength: 1.2
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  minGroundDot: 0.3
+  flipSteeringWhenReversing: 1
+  accelInput: 0
+  steerInput: 0
+  forwardSpeed: 0

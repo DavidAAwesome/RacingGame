@@ -2,55 +2,80 @@ using UnityEngine;
 
 public class SpeedBoost : MonoBehaviour
 {
-    public float BoostAmount = 100f;
-    public float BoostDuration = 5f;
-    [SerializeField] CarMovement carMovement;
-    [SerializeField]GameObject player;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        carMovement = GameObject.FindWithTag("Player").GetComponent<CarMovement>();
-        player = GameObject.FindWithTag("Player"); 
-    }
+    [Header("Boost Settings")]
+    public float BoostMotorForce = 50f;       // how much extra motor force during boost
+    public float BoostMaxSpeedIncrease = 20f; // how much faster the kart can go
+    public float BoostDuration = 5f;         // how long the boost lasts
+    public float ReactivateDelay = 3f;       // cooldown after boost ends
 
-    // Update is called once per frame
-    void Update()
+    [Header("Runtime")]
+    [SerializeField] private KartPhysics kartPhysics;
+    [SerializeField] private GameObject player;
+
+    private float originalMotorForce;
+    private float originalMaxSpeed;
+    private bool isBoostActive = false;
+
+    private void Start()
     {
-       
+        player = GameObject.FindWithTag("Player");
+        if (player != null)
+        {
+            kartPhysics = player.GetComponent<KartPhysics>();
+        }
+
+        if (kartPhysics == null)
+        {
+            Debug.LogError("SpeedBoost: Could not find KartPhysics on Player. Make sure your player has a KartPhysics component.");
+            enabled = false;
+            return;
+        }
+
+        // Cache original values
+        originalMotorForce = kartPhysics.motorForce;
+        originalMaxSpeed = kartPhysics.maxSpeed;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject == player)
-        {
-            // Debug.Log("Speed Boost Activated!");
-            carMovement.isBoosted = true;
-            carMovement.Acceleration += BoostAmount * 2; //Increase acceleration significantly during boost
-            carMovement.MaxSpeed += BoostAmount; //Increase max speed during boost
-            carMovement.Speed += player.transform.forward * BoostAmount; 
-            Invoke("ResetSpeed", BoostDuration);
-            gameObject.SetActive(false);
-            Invoke("ReactivateBoost", BoostDuration + 3f); // Reactivate after boost duration + cooldown time
-        }
+        if (isBoostActive) return; // prevent stacking
+        if (other.gameObject != player) return;
+
+        ActivateBoost();
     }
 
-    private void ResetSpeed() //Reset the Speed after boost duration
+    private void ActivateBoost()
     {
-        carMovement.Acceleration -= BoostAmount;
-        carMovement.MaxSpeed -= BoostAmount;
-        carMovement.isBoosted = false;
-        // Debug.Log("Speed Boost Ended!");
+        isBoostActive = true;
+
+        // Increase motor force and max speed
+        kartPhysics.motorForce = originalMotorForce + BoostMotorForce;
+        kartPhysics.maxSpeed = originalMaxSpeed + BoostMaxSpeedIncrease;
+
+        // Give an instant forward push
+        Rigidbody rb = player.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.linearVelocity += player.transform.forward * BoostMaxSpeedIncrease;
+        }
+
+        // Disable pickup and schedule reset/reactivation
+        gameObject.SetActive(false);
+        Invoke(nameof(ResetSpeed), BoostDuration);
+        Invoke(nameof(ReactivateBoost), BoostDuration + ReactivateDelay);
     }
 
-    private void ReactivateBoost() //Reactivate the boost pickup after cooldown
+    private void ResetSpeed()
+    {
+        // Restore original values
+        kartPhysics.motorForce = originalMotorForce;
+        kartPhysics.maxSpeed = originalMaxSpeed;
+        isBoostActive = false;
+    }
+
+    private void ReactivateBoost()
     {
         gameObject.SetActive(true);
-        // Debug.Log("Speed Boost Ready Again!");
     }
 }
-
-    
-
-
-
 
