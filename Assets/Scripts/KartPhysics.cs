@@ -10,6 +10,10 @@ public class KartPhysics : MonoBehaviour
     public float turnSpeed = 80f;
     public float drag = 0.98f;
 
+    [Header("Friction & Stability")]
+    public float sideFriction = 8f;       // how hard we kill sideways sliding
+    public float angularFriction = 6f;    // how hard we kill spinning (yaw)
+
     [Header("Behavior")]
     public bool flipSteeringWhenReversing = true;
 
@@ -25,22 +29,27 @@ public class KartPhysics : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.interpolation = RigidbodyInterpolation.Interpolate;
 
-        // This keeps the kart from tipping / flipping physically
+        // 🔒 Prevent tipping/rolling
         rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
 
-        // Lower center of mass helps stability even more
+        // Heavier + lower COM = more stable
+        rb.mass = 150f;                  // tweak if needed
+        rb.angularDamping = 5f;             // damping for any leftover spin
         rb.centerOfMass = new Vector3(0f, -0.3f, 0f);
     }
 
     private void FixedUpdate()
     {
-        // Speed along the kart's forward
+        // Signed speed in forward direction
         forwardSpeed = Vector3.Dot(rb.linearVelocity, transform.forward);
 
         HandleAcceleration();
         HandleSteering();
 
-        // Simple drag
+        ApplySideFriction();
+        ApplyAngularFriction();
+
+        // Simple drag for overall slowing
         rb.linearVelocity *= drag;
     }
 
@@ -53,7 +62,6 @@ public class KartPhysics : MonoBehaviour
 
         if (acceleratingForward)
         {
-            // Limit forward speed
             if (forwardSpeed < maxSpeed)
             {
                 rb.AddForce(transform.forward * (accelInput * motorForce), ForceMode.Acceleration);
@@ -61,7 +69,6 @@ public class KartPhysics : MonoBehaviour
         }
         else
         {
-            // Limit reverse speed
             if (forwardSpeed > -maxReverseSpeed)
             {
                 rb.AddForce(transform.forward * (accelInput * motorForce), ForceMode.Acceleration);
@@ -79,11 +86,30 @@ public class KartPhysics : MonoBehaviour
             steer = -steer;
         }
 
-        // Scale steering by speed so you don’t spin on the spot
+        // Scale steering by speed so you don’t spin at low speeds
         float speedFactor = Mathf.Clamp01(Mathf.Abs(forwardSpeed) / maxSpeed);
 
         float turnAmount = steer * turnSpeed * speedFactor * Time.fixedDeltaTime;
         Quaternion turnRot = Quaternion.Euler(0f, turnAmount, 0f);
         rb.MoveRotation(rb.rotation * turnRot);
+    }
+
+    private void ApplySideFriction()
+    {
+        // Kill sideways sliding in local space
+        Vector3 localVel = transform.InverseTransformDirection(rb.linearVelocity);
+
+        // Lerp X (sideways) toward 0
+        localVel.x = Mathf.Lerp(localVel.x, 0f, sideFriction * Time.fixedDeltaTime);
+
+        rb.linearVelocity = transform.TransformDirection(localVel);
+    }
+
+    private void ApplyAngularFriction()
+    {
+        // Kill unwanted spinning around Y
+        Vector3 angVel = rb.angularVelocity;
+        angVel.y = Mathf.Lerp(angVel.y, 0f, angularFriction * Time.fixedDeltaTime);
+        rb.angularVelocity = angVel;
     }
 }
