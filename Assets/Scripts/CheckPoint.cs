@@ -14,6 +14,9 @@ public class CheckPoint : MonoBehaviour
     {
         player = GameObject.FindWithTag("Player");
     }
+    private void Update(){
+        RaceManager.Instance.RespawnCar();
+    }
 
     private void OnTriggerEnter(Collider other)
     {

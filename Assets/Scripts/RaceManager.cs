@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
-
+using UnityEngine.UI;
 public class RaceManager : MonoBehaviour
 {
+    int respawnCoolDown = 0;
     public static RaceManager Instance;
     public CheckPoint[] checkpoints;
     public int totalLaps = 3; // Total number of
@@ -11,6 +12,19 @@ public class RaceManager : MonoBehaviour
     public bool raceFinished = false;
     public bool raceStarted = false;
 
+void Update(){
+   
+}
+public void RespawnCar(){
+     if(deadzone.respawn ==true){
+       GameObject.FindWithTag("Player").transform.position = GameObject.Find(lastCheckpointIndex+"").transform.position;
+respawnCoolDown=1;
+
+
+
+        deadzone.respawn=false;
+    }
+}
     private void Awake()
     {
         if (Instance == null)
@@ -34,6 +48,9 @@ public class RaceManager : MonoBehaviour
         if (checkPointID == expectedNext)
         {
             UpdateCheckpoint(checkPointID);
+        }
+        else if(respawnCoolDown==1){
+            respawnCoolDown=0;
         }
         else
         {
@@ -80,6 +97,21 @@ public class RaceManager : MonoBehaviour
     private void OnLapFinish()
     {
         currentLap++;
+        if(currentLap==1){
+            GameObject.Find("L1").GetComponent<Image>().enabled=true;
+             GameObject.Find("L2").GetComponent<Image>().enabled=false;
+              GameObject.Find("L3").GetComponent<Image>().enabled=false;
+        }
+        if(currentLap==2){
+            GameObject.Find("L1").GetComponent<Image>().enabled=false;
+             GameObject.Find("L2").GetComponent<Image>().enabled=true;
+              GameObject.Find("L3").GetComponent<Image>().enabled=false;
+        }
+         if(currentLap==3){
+            GameObject.Find("L1").GetComponent<Image>().enabled=false;
+             GameObject.Find("L2").GetComponent<Image>().enabled=false;
+              GameObject.Find("L3").GetComponent<Image>().enabled=true;
+        }
         if (currentLap > totalLaps)
         {
             OnFinishRace();
