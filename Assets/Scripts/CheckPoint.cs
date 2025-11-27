@@ -23,7 +23,11 @@ public class CheckPoint : MonoBehaviour
         if (other.gameObject == player)
         {
             RaceManager.Instance.CheckpointReach(checkPointID);
-  
+        }
+
+        if(other.CompareTag("AI"))
+        {
+            RaceManager.Instance.AICheckpointReach(checkPointID);
         }
     }
 }

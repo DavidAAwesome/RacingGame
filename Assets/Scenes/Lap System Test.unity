@@ -1675,6 +1675,8 @@ MonoBehaviour:
   totalLaps: 3
   currentLap: 1
   lastCheckpointIndex: -1
+  AiCurrentLap: 1
+  AiLastCheckpointIndex: -1
   raceFinished: 0
   raceStarted: 0
 --- !u!4 &840456111
@@ -4239,7 +4241,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3991788124716110645, guid: 319000e98c0917447a473113cb3d19ba, type: 3}
       propertyPath: m_TagString
-      value: Untagged
+      value: AI
       objectReference: {fileID: 0}
     - target: {fileID: 4932759979078933891, guid: 319000e98c0917447a473113cb3d19ba, type: 3}
       propertyPath: m_Enabled

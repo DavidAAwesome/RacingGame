@@ -8,6 +8,8 @@ public class RaceManager : MonoBehaviour
     public int totalLaps = 3; // Total number of
     public int currentLap = 1; // Current lap number
     public int lastCheckpointIndex = -1; // Index of the last checkpoint reached
+    public int AiCurrentLap = 1;// AI Current lap number
+    public int AiLastCheckpointIndex = -1;//  Player Index of the last checkpoint reached
 
     public bool raceFinished = false;
     public bool raceStarted = false;
@@ -78,6 +80,49 @@ respawnCoolDown=1;
         lastCheckpointIndex = checkPointID;
     }
 
+
+    public void AICheckpointReach(int checkPointID)
+    {
+        if (!raceStarted && checkPointID != 0 || raceFinished)
+        {
+            return;
+        }
+        int expectedNext = (AiLastCheckpointIndex + 1) % checkpoints.Length;
+
+        if (checkPointID == expectedNext)
+        {
+            AiUpdateCheckpoint(checkPointID);
+        }
+        else if (respawnCoolDown == 1)
+        {
+            respawnCoolDown = 0;
+        }
+        else
+        {
+            Debug.Log("Wrong Checkpoint");
+        }
+    }
+
+    public void AiUpdateCheckpoint(int checkPointID)
+    {
+
+        if (checkPointID == 0)
+        {
+            if (raceStarted == false)
+            {
+                OnStartRace();
+
+            }
+            else if (raceFinished == false && AiLastCheckpointIndex == checkpoints.Length - 1)
+            {
+                AILapFinish();
+                Debug.Log("Lap Finished!");
+            }
+        }
+
+        AiLastCheckpointIndex = checkPointID;
+    }
+
     private void OnStartRace()
     {
         raceStarted = true;
@@ -97,20 +142,23 @@ respawnCoolDown=1;
     private void OnLapFinish()
     {
         currentLap++;
-        if(currentLap==1){
-            GameObject.Find("L1").GetComponent<Image>().enabled=true;
-             GameObject.Find("L2").GetComponent<Image>().enabled=false;
-              GameObject.Find("L3").GetComponent<Image>().enabled=false;
+        if (currentLap == 1)
+        {
+            GameObject.Find("L1").GetComponent<Image>().enabled = true;
+            GameObject.Find("L2").GetComponent<Image>().enabled = false;
+            GameObject.Find("L3").GetComponent<Image>().enabled = false;
         }
-        if(currentLap==2){
-            GameObject.Find("L1").GetComponent<Image>().enabled=false;
-             GameObject.Find("L2").GetComponent<Image>().enabled=true;
-              GameObject.Find("L3").GetComponent<Image>().enabled=false;
+        if (currentLap == 2)
+        {
+            GameObject.Find("L1").GetComponent<Image>().enabled = false;
+            GameObject.Find("L2").GetComponent<Image>().enabled = true;
+            GameObject.Find("L3").GetComponent<Image>().enabled = false;
         }
-         if(currentLap==3){
-            GameObject.Find("L1").GetComponent<Image>().enabled=false;
-             GameObject.Find("L2").GetComponent<Image>().enabled=false;
-              GameObject.Find("L3").GetComponent<Image>().enabled=true;
+        if (currentLap == 3)
+        {
+            GameObject.Find("L1").GetComponent<Image>().enabled = false;
+            GameObject.Find("L2").GetComponent<Image>().enabled = false;
+            GameObject.Find("L3").GetComponent<Image>().enabled = true;
         }
         if (currentLap > totalLaps)
         {
@@ -121,8 +169,64 @@ respawnCoolDown=1;
             lastCheckpointIndex = -1; // Reset checkpoint index for new lap
             Debug.Log("Starting Lap " + currentLap);
         }
+    }
+        private void AILapFinish()
+        {
+            AiCurrentLap++;
+            if (AiCurrentLap > totalLaps)
+        {
+            OnFinishRace();
+        }
+            else
+             {
+                AiLastCheckpointIndex = -1; // Reset checkpoint index for new lap
+                Debug.Log("Starting Lap " + currentLap);
+             }
+   
+        }
+
+
+    public void Postioning()
+    {
+        Transform player = GameObject.FindWithTag("Player").transform;
+        Transform ai = GameObject.FindWithTag("AI").transform;
+        Vector3 distance = player.position - ai.position;
+        float distanceDot = Vector3.Dot(distance, player.forward);
+
+        if (lastCheckpointIndex > AiLastCheckpointIndex)
+        {
+            Debug.Log("Position 1");
+        }
+        else if (lastCheckpointIndex == AiLastCheckpointIndex && distanceDot > 0)
+        {
+            Debug.Log("Position 1");
+        }
+        else if (lastCheckpointIndex == AiLastCheckpointIndex && distanceDot < 0)
+        {
+            Debug.Log("Position 2");
+        }
+        else if (currentLap > AiCurrentLap)
+        {
+            Debug.Log("Position 1");
+        }
+        else if (AiCurrentLap > currentLap)
+        {
+            Debug.Log("Position 2");
+        }
+        else
+        {
+            Debug.Log("Position 2");
+        }
 
     }
 
+    private void FixedUpdate()
+    {
+        Postioning();
+    }
+
+
 }
+
+
 
