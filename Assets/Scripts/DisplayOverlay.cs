@@ -6,8 +6,8 @@ public class DisplayOverlay : MonoBehaviour
      public bool gameLost;
     public GameObject Overlay;
     public static GameObject Overlay1_Global;
-    public GameObject Overlay2;
-    public GameObject Overlay3;
+    public GameObject win;
+    public GameObject lose;
     public GameObject Ready;
      public GameObject Set;
       public GameObject Go;
@@ -30,11 +30,11 @@ time+=Time.deltaTime;
         }
         else if (gameWon)
         {
-             Overlay2.SetActive(true);
+             win.SetActive(true);
         }
          else if (gameLost)
         {
-             Overlay3.SetActive(true);
+            lose.SetActive(true);
         }
     }
     void ReadySetGo_Start(){

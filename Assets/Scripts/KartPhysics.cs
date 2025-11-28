@@ -7,7 +7,7 @@ public class KartPhysics : MonoBehaviour
     public float motorForce = 30f;
     public float maxSpeed = 20f;          // forward speed
     public float maxReverseSpeed = 8f;    // backwards speed
-    public float turnSpeed = 80f;
+    public float turnSpeed = 10f;
     public float drag = 0.98f;
 
     [Header("Friction & Stability")]

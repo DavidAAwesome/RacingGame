@@ -4,6 +4,7 @@ public class RaceManager : MonoBehaviour
 {
     int respawnCoolDown = 0;
     public static RaceManager Instance;
+    public DisplayOverlay displayOverlay;
     public CheckPoint[] checkpoints;
     public int totalLaps = 3; // Total number of
     public int currentLap = 1; // Current lap number
@@ -13,8 +14,12 @@ public class RaceManager : MonoBehaviour
 
     public bool raceFinished = false;
     public bool raceStarted = false;
+    public bool playerWin = false;
+    public bool aiWin = false;
 
-void Update(){
+
+
+    void Update(){
    
 }
 public void RespawnCar(){
@@ -40,6 +45,8 @@ respawnCoolDown=1;
         {
             Destroy(gameObject);
         }
+
+        displayOverlay = GameObject.Find("DisplayCanvas").GetComponent<DisplayOverlay>();
     }
 
     public void CheckpointReach(int checkPointID)
@@ -80,6 +87,26 @@ respawnCoolDown=1;
                 OnLapFinish();
                 Debug.Log("Lap Finished!");
             }
+        }
+
+        if (currentLap == 1)
+        {
+            GameObject.Find("L1").GetComponent<Image>().enabled = true;
+            GameObject.Find("L2").GetComponent<Image>().enabled = false;
+            GameObject.Find("L3").GetComponent<Image>().enabled = false;
+            Debug.Log("Run 1");
+        }
+        if (currentLap == 2)
+        {
+            GameObject.Find("L1").GetComponent<Image>().enabled = false;
+            GameObject.Find("L2").GetComponent<Image>().enabled = true;
+            GameObject.Find("L3").GetComponent<Image>().enabled = false;
+        }
+        if (currentLap == 3)
+        {
+            GameObject.Find("L1").GetComponent<Image>().enabled = false;
+            GameObject.Find("L2").GetComponent<Image>().enabled = false;
+            GameObject.Find("L3").GetComponent<Image>().enabled = true;
         }
 
         lastCheckpointIndex = checkPointID;
@@ -149,24 +176,6 @@ respawnCoolDown=1;
     private void OnLapFinish()
     {
         currentLap++;
-        if (currentLap == 1)
-        {
-            GameObject.Find("L1").GetComponent<Image>().enabled = true;
-            GameObject.Find("L2").GetComponent<Image>().enabled = false;
-            GameObject.Find("L3").GetComponent<Image>().enabled = false;
-        }
-        if (currentLap == 2)
-        {
-            GameObject.Find("L1").GetComponent<Image>().enabled = false;
-            GameObject.Find("L2").GetComponent<Image>().enabled = true;
-            GameObject.Find("L3").GetComponent<Image>().enabled = false;
-        }
-        if (currentLap == 3)
-        {
-            GameObject.Find("L1").GetComponent<Image>().enabled = false;
-            GameObject.Find("L2").GetComponent<Image>().enabled = false;
-            GameObject.Find("L3").GetComponent<Image>().enabled = true;
-        }
         if (currentLap > totalLaps)
         {
             OnFinishRace();
@@ -227,9 +236,37 @@ respawnCoolDown=1;
 
     }
 
+    private void WinLose()
+    {
+        if (raceFinished && AiCurrentLap > currentLap)
+        {
+            aiWin = true;
+            playerWin = false;
+        }
+        else if (raceFinished && currentLap > AiCurrentLap)
+        {
+            playerWin = true;
+            aiWin = false;
+        }
+
+        if (playerWin)
+        {
+            Debug.Log("Player Wins!");
+            displayOverlay.gameWon = true;
+
+        }
+        else if (aiWin)
+        {
+            Debug.Log("AI Wins!");
+            displayOverlay.gameLost = true;
+        }
+    }
+
     private void FixedUpdate()
     {
         Postioning();
+        WinLose();
+        
     }
 
 
