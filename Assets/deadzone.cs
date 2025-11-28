@@ -12,8 +12,11 @@ public class deadzone : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-         if(GameObject.FindWithTag("Player").transform.position.y<-7)
+         if(GameObject.FindWithTag("Player").transform.position.y<-7){
         respawn = true;
+        GameObject.Find("Main Camera").GetComponent<CameraController>().enabled=false;
+       
+         }
     }
    
 }

@@ -20,6 +20,9 @@ void Update(){
 public void RespawnCar(){
      if(deadzone.respawn ==true){
        GameObject.FindWithTag("Player").transform.position = GameObject.Find(lastCheckpointIndex+"").transform.position;
+   GameObject.FindWithTag("Player").GetComponent<MeshRenderer>().enabled=false;
+   
+
 respawnCoolDown=1;
 
 
@@ -52,6 +55,8 @@ respawnCoolDown=1;
             UpdateCheckpoint(checkPointID);
         }
         else if(respawnCoolDown==1){
+            GameObject.Find("Main Camera").transform.position=new Vector3(GameObject.Find("Main Camera").transform.position.x,3.587955f,GameObject.Find("Main Camera").transform.position.z);
+               GameObject.Find("Main Camera").GetComponent<CameraController>().enabled=true;
             respawnCoolDown=0;
         }
         else
@@ -95,6 +100,8 @@ respawnCoolDown=1;
         }
         else if (respawnCoolDown == 1)
         {
+               GameObject.FindWithTag("Player").GetComponent<MeshRenderer>().enabled=true;
+
             respawnCoolDown = 0;
         }
         else
