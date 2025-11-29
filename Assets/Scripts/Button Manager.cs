@@ -1,4 +1,4 @@
-using UnityEditor;
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -45,6 +45,7 @@ None,
     }
     void OnMouseDown()
     {
+        Debug.Log("1");
         if (gameObject.name.Contains("1"))
         {
             currentScene = CurrentSceneName.MainGame1;

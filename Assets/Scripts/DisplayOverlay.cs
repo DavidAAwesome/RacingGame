@@ -24,7 +24,7 @@ public class DisplayOverlay : MonoBehaviour
         ReadySetGo_Start();
 time+=Time.deltaTime;
 
-        if ((!gameObject.name.Contains("Win") && (!gameObject.name.Contains("Lose")) && Input.GetKey(KeyCode.Escape)))
+        if ((!gameObject.name.Contains("Win")  && Input.GetKey(KeyCode.Escape)))
         {
             Overlay.SetActive(true);
         }
