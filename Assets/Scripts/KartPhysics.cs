@@ -40,6 +40,9 @@ public class KartPhysics : MonoBehaviour
 
     private void FixedUpdate()
     {
+         if(!Input.GetKey("a")&&!Input.GetKey("d")){
+    rb.constraints = RigidbodyConstraints.FreezeRotationZ|RigidbodyConstraints.FreezeRotationX|RigidbodyConstraints.FreezeRotationY;
+    }
         // Signed speed in forward direction
         forwardSpeed = Vector3.Dot(rb.linearVelocity, transform.forward);
 

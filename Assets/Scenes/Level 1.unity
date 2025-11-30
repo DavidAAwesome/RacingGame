@@ -9745,12 +9745,28 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3336851857238578474, guid: 7b40d9393cf2e1e43bcafd27ef8277ed, type: 3}
+      propertyPath: drag
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3336851857238578474, guid: 7b40d9393cf2e1e43bcafd27ef8277ed, type: 3}
       propertyPath: maxSpeed
-      value: 1.3
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3336851857238578474, guid: 7b40d9393cf2e1e43bcafd27ef8277ed, type: 3}
+      propertyPath: turnSpeed
+      value: 108
       objectReference: {fileID: 0}
     - target: {fileID: 3336851857238578474, guid: 7b40d9393cf2e1e43bcafd27ef8277ed, type: 3}
       propertyPath: motorForce
-      value: 100
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 3336851857238578474, guid: 7b40d9393cf2e1e43bcafd27ef8277ed, type: 3}
+      propertyPath: steerInput
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3336851857238578474, guid: 7b40d9393cf2e1e43bcafd27ef8277ed, type: 3}
+      propertyPath: maxReverseSpeed
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5790419252570762633, guid: 7b40d9393cf2e1e43bcafd27ef8277ed, type: 3}
       propertyPath: m_LocalScale.x
@@ -9807,6 +9823,10 @@ PrefabInstance:
     - target: {fileID: 5999068089385906553, guid: 7b40d9393cf2e1e43bcafd27ef8277ed, type: 3}
       propertyPath: m_Name
       value: Player Car
+      objectReference: {fileID: 0}
+    - target: {fileID: 8022352907429278701, guid: 7b40d9393cf2e1e43bcafd27ef8277ed, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
