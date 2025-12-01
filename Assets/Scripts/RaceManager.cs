@@ -11,6 +11,7 @@ public class RaceManager : MonoBehaviour
     public int lastCheckpointIndex = -1; // Index of the last checkpoint reached
     public int AiCurrentLap = 1;// AI Current lap number
     public int AiLastCheckpointIndex = -1;//  Player Index of the last checkpoint reached
+    public int expectedNext;
 
     public bool raceFinished = false;
     public bool raceStarted = false;
@@ -47,6 +48,7 @@ public void RespawnCar(){
         }
 
         displayOverlay = GameObject.Find("DisplayCanvas").GetComponent<DisplayOverlay>();
+        expectedNext = lastCheckpointIndex + 1;
     }
 
     public void CheckpointReach(int checkPointID)
@@ -55,7 +57,9 @@ public void RespawnCar(){
         {
             return;
         }
-        int expectedNext = lastCheckpointIndex + 1 ;
+
+        lastCheckpointIndex++;
+        expectedNext++;
         Debug.Log("Expected Next Checkpoint: " + expectedNext);
 
         if (checkPointID == expectedNext)

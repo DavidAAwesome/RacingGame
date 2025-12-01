@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(KartPhysics))]
 public class PlayerKartController : MonoBehaviour
@@ -46,6 +47,11 @@ public class PlayerKartController : MonoBehaviour
 
         kart.accelInput = accelInput;
         kart.steerInput = steerInput;
+
+        if (transform.position.y <= -4)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
     }
 }
 
