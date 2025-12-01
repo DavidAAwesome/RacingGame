@@ -20,9 +20,10 @@ public class CheckPoint : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player")
+        if (other.gameObject == player) 
         {
             RaceManager.Instance.CheckpointReach(checkPointID);
+            Debug.Log("Player reached checkpoint: " + checkPointID);
         }
 
         if(other.CompareTag("AI"))

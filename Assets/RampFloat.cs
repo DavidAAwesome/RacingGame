@@ -16,8 +16,10 @@ public class RampFloat : MonoBehaviour
     private void OnTriggerStay(Collider col){
         
         if(col.gameObject.tag=="Player"||col.gameObject.tag=="AI"){
-            Debug.Log("test2");
+            
             col.gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(0,100000*Time.deltaTime,0));
         }
+    
     }
+    
 }

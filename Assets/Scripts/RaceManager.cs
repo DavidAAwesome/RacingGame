@@ -24,11 +24,11 @@ public class RaceManager : MonoBehaviour
 }
 public void RespawnCar(){
      if(deadzone.respawn ==true){
-       GameObject.FindWithTag("Player").transform.position = GameObject.Find(lastCheckpointIndex+"").transform.position;
-   GameObject.FindWithTag("Player").GetComponent<MeshRenderer>().enabled=false;
+        GameObject.FindWithTag("Player").transform.position = GameObject.Find(lastCheckpointIndex+"").transform.position;
+        GameObject.FindWithTag("Player").GetComponent<MeshRenderer>().enabled=false;
    
 
-respawnCoolDown=1;
+        respawnCoolDown=1;
 
 
 
@@ -55,15 +55,17 @@ respawnCoolDown=1;
         {
             return;
         }
-        int expectedNext = (lastCheckpointIndex + 1) % checkpoints.Length;
+        int expectedNext = lastCheckpointIndex + 1 ;
+        Debug.Log("Expected Next Checkpoint: " + expectedNext);
 
         if (checkPointID == expectedNext)
         {
             UpdateCheckpoint(checkPointID);
+            Debug.Log("Checkpoint Reached: " + checkPointID);
         }
         else if(respawnCoolDown==1){
             GameObject.Find("Main Camera").transform.position=new Vector3(GameObject.Find("Main Camera").transform.position.x,3.587955f,GameObject.Find("Main Camera").transform.position.z);
-               GameObject.Find("Main Camera").GetComponent<CameraController>().enabled=true;
+            GameObject.Find("Main Camera").GetComponent<CameraController>().enabled=true;
             respawnCoolDown=0;
         }
         else
@@ -211,27 +213,27 @@ respawnCoolDown=1;
 
         if (lastCheckpointIndex > AiLastCheckpointIndex)
         {
-            Debug.Log("Position 1");
+           // Debug.Log("Position 1");
         }
         else if (lastCheckpointIndex == AiLastCheckpointIndex && distanceDot > 0)
         {
-            Debug.Log("Position 1");
+           // Debug.Log("Position 1");
         }
         else if (lastCheckpointIndex == AiLastCheckpointIndex && distanceDot < 0)
         {
-            Debug.Log("Position 2");
+           // Debug.Log("Position 2");
         }
         else if (currentLap > AiCurrentLap)
         {
-            Debug.Log("Position 1");
+           // Debug.Log("Position 1");
         }
         else if (AiCurrentLap > currentLap)
         {
-            Debug.Log("Position 2");
+            //Debug.Log("Position 2");
         }
         else
         {
-            Debug.Log("Position 2");
+           // Debug.Log("Position 2");
         }
 
     }
