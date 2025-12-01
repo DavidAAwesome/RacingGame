@@ -40,6 +40,14 @@ public class KartPhysics : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if(Input.GetKey("a")){
+            transform.Rotate(new Vector3(transform.rotation.x , transform.rotation.y+(-100*Time.deltaTime), transform.rotation.z));
+            
+
+        }
+        if(Input.GetKey("d")){
+            transform.Rotate(new Vector3(transform.rotation.x , transform.rotation.y+(100*Time.deltaTime), transform.rotation.z));
+        }
          if(!Input.GetKey("a")&&!Input.GetKey("d")){
     rb.constraints = RigidbodyConstraints.FreezeRotationZ|RigidbodyConstraints.FreezeRotationX|RigidbodyConstraints.FreezeRotationY;
     }
