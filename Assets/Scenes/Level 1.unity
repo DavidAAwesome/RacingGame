@@ -1300,8 +1300,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2135600697}
     - target: {fileID: 4176923620528125189, guid: f08b0e2449a67e643bcf01775f4368ba, type: 3}
+      propertyPath: maxSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4176923620528125189, guid: f08b0e2449a67e643bcf01775f4368ba, type: 3}
       propertyPath: cornerSlowdownFactor
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4176923620528125189, guid: f08b0e2449a67e643bcf01775f4368ba, type: 3}
+      propertyPath: waypointReachDistance
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 6695579780051221221, guid: f08b0e2449a67e643bcf01775f4368ba, type: 3}
       propertyPath: m_Name
@@ -11330,7 +11338,7 @@ Transform:
   m_GameObject: {fileID: 1623296807}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.6923157, z: -0, w: -0.72159475}
-  m_LocalPosition: {x: -16.388, y: -2.26, z: 40.512}
+  m_LocalPosition: {x: -16.4637, y: -2.26, z: 40.7463}
   m_LocalScale: {x: 0.049999997, y: 0.024497915, z: 0.07349375}
   m_ConstrainProportionsScale: 0
   m_Children: []
